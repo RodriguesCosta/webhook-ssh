@@ -24,4 +24,7 @@ export const envSentry = {
   dsn: process.env.SENTRY_DSN,
 };
 
-export const envAdminMaster = process.env.ADMIN_MASTER;
+export const envAuth = {
+  defaultUser: process.env.DEFAULT_USER,
+  defaultPass: process.env.DEFAULT_PASS,
+};
