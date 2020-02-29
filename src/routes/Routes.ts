@@ -5,6 +5,7 @@ import auth from '../middlewares/auth';
 
 Routes.post('/ssh', auth, sSHController.store);
 Routes.get('/ssh', auth, sSHController.index);
+Routes.delete('/ssh/:id', auth, sSHController.destroy);
 
 Routes.post('/ssh/:id', sSHController.show);
 
