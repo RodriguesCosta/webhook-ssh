@@ -46,7 +46,14 @@ class SSHController {
   public async index(req: Request, res: Response) {
     const ssh_config = [...JSON.parse(await dbRedis.getClient().get('ssh_config'))];
     res.json({
-      ssh_config,
+      ssh_config: ssh_config.map((value) => {
+        delete value.username;
+        delete value.password;
+        delete value.port;
+        delete value.host;
+        delete value.command;
+        return value;
+      }),
     });
   }
 
