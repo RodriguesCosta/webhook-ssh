@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import base64 from 'js-base64';
 const { Base64 } = base64;
 
 import dbRedis from '../config/database/dbRedis';
-import ErrorLib from 'lib/ErrorLib';
+import ErrorLib from '../lib/ErrorLib';
 
 export default async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;

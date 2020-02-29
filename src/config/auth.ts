@@ -1,5 +1,5 @@
 import dbRedis from './database/dbRedis';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { envAuth } from './environment';
 
 (async function () {
