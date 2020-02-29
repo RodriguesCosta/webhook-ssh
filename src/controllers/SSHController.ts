@@ -24,19 +24,20 @@ class SSHController {
     }
 
     const ssh_config = [...JSON.parse(await dbRedis.getClient().get('ssh_config'))];
-    ssh_config.push({
+    const ssh = {
       id: uuid.v4(),
       host: req.body.host,
       port: req.body.port,
       username: req.body.username,
       password: req.body.password,
       command: req.body.command,
-    });
+    };
+    ssh_config.push(ssh);
 
     await dbRedis.getClient().set('ssh_config', JSON.stringify(ssh_config));
 
     res.json({
-      ok: true,
+      ssh,
     });
   }
 
