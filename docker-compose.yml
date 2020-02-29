@@ -24,6 +24,8 @@ services:
       - webhookssh
     expose:
       - 6379
+    ports:
+      - 127.0.0.1:7501:6379
     restart: always
 networks:
   webhookssh:
