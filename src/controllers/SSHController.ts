@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { exec } from 'child_process';
 import dbRedis from '../config/database/dbRedis';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -71,21 +72,25 @@ class SSHController {
       });
     }
 
-    const conn = new Client();
-    conn.on('ready', () => {
-      conn.shell((err, stream) => {
-        if (err) throw err;
-        stream.on('close', () => {
-          conn.end();
+    if (ssh.host === 'localhost') {
+      exec(ssh.command);
+    } else {
+      const conn = new Client();
+      conn.on('ready', () => {
+        conn.shell((err, stream) => {
+          if (err) throw err;
+          stream.on('close', () => {
+            conn.end();
+          });
+          stream.end(`${ssh.command} && exit\n`);
         });
-        stream.end(`${ssh.command} && exit\n`);
+      }).connect({
+        host: ssh.host,
+        port: ssh.port,
+        username: ssh.username,
+        password: ssh.password,
       });
-    }).connect({
-      host: ssh.host,
-      port: ssh.port,
-      username: ssh.username,
-      password: ssh.password,
-    });
+    }
 
     res.json({
       ok: true,
