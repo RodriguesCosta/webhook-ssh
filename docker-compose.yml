@@ -1,22 +1,22 @@
 version: "3.5"
 services:
-  webhookssh:
-    hostname: webhookssh
-    container_name: webhookssh
+  app:
+    hostname: app
+    container_name: app
     build:
       context: .
     image: webhookssh
     networks:
       - webhookssh
     expose:
-      - 8033
-      - 4433
+      - 80
+      - 443
     ports:
-      - 7002:4433
+      - 5001:80
     restart: always
   redis:
     hostname: redis
-    container_name: webhookssh_redis
+    container_name: redis
     image: redis:alpine
     volumes:
       - ./.docker-compose/redis/data:/data
