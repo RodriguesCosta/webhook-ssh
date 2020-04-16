@@ -5,7 +5,7 @@ import dbRedis from '../config/database/dbRedis';
 import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 import ErrorLib from '../lib/ErrorLib';
-import { Client } from 'ssh2';
+import { Client, ConnectConfig } from 'ssh2';
 
 class SSHController {
 
@@ -75,6 +75,18 @@ class SSHController {
     if (ssh.host === 'localhost') {
       exec(ssh.command);
     } else {
+      const connectOptions: ConnectConfig = {
+        host: ssh.host,
+        port: ssh.port,
+        username: ssh.username,
+      };
+
+      if (ssh.password.indexOf('base64::') === 0) {
+        connectOptions.privateKey = Buffer.from(ssh.password.replace('base64::', ''), 'base64');
+      } else {
+        connectOptions.password = ssh.password;
+      }
+
       const conn = new Client();
       conn.on('ready', () => {
         conn.shell((err, stream) => {
@@ -84,12 +96,7 @@ class SSHController {
           });
           stream.end(`${ssh.command} && exit\n`);
         });
-      }).connect({
-        host: ssh.host,
-        port: ssh.port,
-        username: ssh.username,
-        password: ssh.password,
-      });
+      }).connect(connectOptions);
     }
 
     res.json({
