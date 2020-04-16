@@ -6,8 +6,8 @@ export const envAppName = process.env.APP_NAME;
 export const envServer = {
   portHttp: process.env.PORT_HTTP || 80,
   portHttps: process.env.PORT_HTTPS || 443,
-  privkey: Buffer.from(process.env.HTTPS_PRIVKEY_PEM, 'base64').toString(),
-  fullchain: Buffer.from(process.env.HTTPS_FULLCHAIN_PEM, 'base64').toString(),
+  privkey: process.env.HTTPS_PRIVKEY_PEM ? Buffer.from(process.env.HTTPS_PRIVKEY_PEM, 'base64').toString() : null,
+  fullchain: process.env.HTTPS_FULLCHAIN_PEM ? Buffer.from(process.env.HTTPS_FULLCHAIN_PEM, 'base64').toString() : null,
   domain: process.env.SERVER_DOMAIN,
   domainUrl: `${envIsDev() || envIsTest() ? 'http' : 'https'}://${process.env.SERVER_DOMAIN}`,
 };
