@@ -81,8 +81,8 @@ class SSHController {
         username: ssh.username,
       };
 
-      if (ssh.password.indexOf('base64::') === 0) {
-        connectOptions.privateKey = Buffer.from(ssh.password.replace('base64::', ''), 'base64');
+      if (ssh.password.indexOf('privateKey::') === 0) {
+        connectOptions.privateKey = Buffer.from(ssh.password.replace('privateKey::', ''), 'base64');
       } else {
         connectOptions.password = ssh.password;
       }
