@@ -93,7 +93,8 @@ class SSHController {
           if (err) throw err;
           stream.on('close', () => {
             conn.end();
-            conn.destroy();
+          }).on('data', (data: any) => {
+            console.log('data output:', data);
           });
           stream.end(`${ssh.command}\nexit\n`);
         });
