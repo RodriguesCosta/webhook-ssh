@@ -96,7 +96,7 @@ class SSHController {
           }).on('data', (data: any) => {
             console.log('data output:', data);
           });
-          stream.end(`${ssh.command}\nexit\n`);
+          stream.end(`${ssh.command} && exit\n`);
         });
       }).connect(connectOptions);
     }
