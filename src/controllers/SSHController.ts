@@ -94,9 +94,7 @@ class SSHController {
           stream.on('close', () => {
             conn.end();
           });
-          stream.end(`${ssh.command} && exit\n`, () => {
-            stream.close();
-          });
+          stream.end(`${ssh.command}\nexit\n`);
         });
       }).connect(connectOptions);
     }
